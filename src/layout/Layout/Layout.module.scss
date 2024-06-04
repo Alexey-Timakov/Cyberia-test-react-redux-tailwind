@@ -1,13 +1,11 @@
 .layout {
   display: grid;
-  // grid-template-columns: auto minmax(82rem, 124rem) auto;
   grid-template-areas:
-    "header"
-    "body"
-    "footer"
-  ;
+    ". header ."
+    ". body ."
+    "footer footer footer";
   grid-template-rows: auto 1fr auto;
-  align-content: stretch;
+  grid-template-columns: auto minmax(55rem, 124rem) auto;
   min-height: 100vh;
 }
 

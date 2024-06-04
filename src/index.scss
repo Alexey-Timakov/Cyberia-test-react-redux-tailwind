@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300;400;600&display=swap');
 
-html,
-body {
-  font-family: "Fira Sans Condensed", sans-serif;
-  font-style: normal;
-  background: linear-gradient(180deg, #24252F 0%, #31313F 36.46%, #242530 100%);
-}
-
 :root {
   --font-base-size: 62.5%;
   --white: #FFFFFF;
   --light-grey: #EFF3FF;
   --dark-grey: #313341;
+}
+
+html,
+body {
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-style: normal;
+  font-size: var(--font-base-size);
+  background: linear-gradient(180deg, #24252F 0%, #31313F 36.46%, #242530 100%);
+  margin: 0;
+  padding: 0;
 }
