@@ -5,6 +5,6 @@ interface IFooter extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTML
 
 export const Footer = ({ className, ...props }: IFooter): ReactElement => {
   return (
-    <div className={className} {...props}>Footer</div>
+    <div className={className} {...props}><h1>Footer</h1></div>
   )
 };

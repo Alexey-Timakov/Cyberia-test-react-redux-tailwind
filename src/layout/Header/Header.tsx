@@ -1,4 +1,3 @@
-import { LogoIcon } from "@/icons";
 import { DetailedHTMLProps, HTMLAttributes, ReactElement } from "react";
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -7,8 +6,7 @@ interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTML
 export const Header = ({ className, ...props }: IHeader): ReactElement => {
   return (
     <header className={className} {...props}>
-      <LogoIcon />
-      <p>Header</p>
+      <h1>Header</h1>
     </header>
   )
 };
