@@ -3,6 +3,7 @@ import { navigations } from "@/helpers/path";
 import { LogoIcon } from "@/icons";
 import styles from "./Header.module.scss";
 import cn from "classnames";
+import { NavLink } from "react-router-dom";
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 }
@@ -14,9 +15,9 @@ export const Header = ({ className, ...props }: IHeader): ReactElement => {
       <nav className={styles.menu}>
         {navigations.map(navItem => {
           return (
-            <a key={navItem.id} href={`/${navItem.pathName}`}>
+            <NavLink className={({ isActive }) => isActive ? styles.active : ""} key={navItem.id} to={`/${navItem.pathName}`}>
               {navItem.title}
-            </a>
+            </NavLink>
           )
         })}
       </nav>

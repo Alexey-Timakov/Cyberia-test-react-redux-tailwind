@@ -3,6 +3,7 @@ import styles from "./Footer.module.scss";
 import cn from "classnames";
 import { LogoIcon } from "@/icons";
 import { navigations } from "@/helpers/path";
+import { Link } from "react-router-dom";
 
 interface IFooter extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 }
@@ -25,7 +26,7 @@ export const Footer = ({ className, ...props }: IFooter): ReactElement => {
         <section className={styles["footer-menu"]}>
           {navigations.map(navItem => {
             return (
-              <a key={navItem.id} href={`/${navItem.pathName}`}>{navItem.title}</a>
+              <Link key={navItem.id} to={`/${navItem.pathName}`}>{navItem.title}</Link>
             )
           })}
         </section>
