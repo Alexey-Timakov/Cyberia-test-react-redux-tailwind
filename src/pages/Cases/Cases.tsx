@@ -2,7 +2,6 @@ import styles from "./Cases.module.scss";
 import { useTypedSelector } from "@/store/reducers";
 import { useEffect } from "react";
 import { useActions } from "@/store/actions";
-import { ICategory } from "@/store/reducers/categoriesReducer";
 
 export const Cases = () => {
   const { activeCatagory, categories, isLoading: isCategoriesLoading, error: categoriesError } = useTypedSelector(state => state.categories);
@@ -10,18 +9,6 @@ export const Cases = () => {
 
   const { fetchCategories, changeActiveCategory } = useActions();
   const { fetchProjects } = useActions();
-
-  const setActiveCategory = (cat: ICategory) => {
-    if (!activeCatagory) {
-      changeActiveCategory(cat);
-      return;
-    }
-    if (activeCatagory.id === cat.id) {
-      changeActiveCategory(null);
-      return;
-    }
-    changeActiveCategory(cat);
-  };
 
   useEffect(() => {
     fetchCategories()
@@ -48,7 +35,7 @@ export const Cases = () => {
             <div style={{
               border: activeCatagory?.id === cat.id ? "0.1rem solid red" : "0.1rem solid grey"
             }}
-              onClick={() => setActiveCategory(cat)}
+              onClick={() => changeActiveCategory(cat)}
               key={cat.id}
             >
               <div>{cat.name}</div>

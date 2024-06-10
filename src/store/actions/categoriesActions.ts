@@ -15,8 +15,6 @@ export const fetchCategories = () => {
 }
 
 export const changeActiveCategory = (cat: ICategory | null) => {
-  console.log("Change category to:", cat?.id || null);
-
   return (dispatch: Dispatch<TCategoriesActions>) => {
     dispatch({ type: CategoriesActionsTypes.CATEGORIES_CHANGE, payload: cat })
   }

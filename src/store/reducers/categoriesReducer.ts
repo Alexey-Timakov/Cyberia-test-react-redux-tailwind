@@ -49,12 +49,27 @@ export const categoriesReducer = (state = initialState, action: TCategoriesActio
   switch (action.type) {
     case CategoriesActionsTypes.CATEGORIES_FETCH:
       return { ...state, isLoading: true }
+
     case CategoriesActionsTypes.CATEGORIES_ERROR:
       return { ...state, isLoading: false, error: action.payload }
+
     case CategoriesActionsTypes.CATEGORIES_GOT:
       return { isLoading: false, error: null, categories: action.payload, activeCatagory: null }
+
     case CategoriesActionsTypes.CATEGORIES_CHANGE:
+      // If no category has selected before
+      if (!state.activeCatagory) {
+        return { ...state, activeCatagory: action.payload }
+      }
+
+      // If new selected category is the same as previous active category
+      if (action.payload && state.activeCatagory.id === action.payload.id) {
+        return { ...state, activeCatagory: null }
+      }
+
+      // If new category is selected
       return { ...state, activeCatagory: action.payload }
+
     default:
       return state
   }
