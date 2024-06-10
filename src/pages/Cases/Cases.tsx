@@ -1,18 +1,69 @@
 import styles from "./Cases.module.scss";
+import { useTypedSelector } from "@/store/reducers";
+import { useEffect } from "react";
+import { useActions } from "@/store/actions";
+import { ICategory } from "@/store/reducers/categoriesReducer";
 
 export const Cases = () => {
+  const { activeCatagory, categories, isLoading: isCategoriesLoading, error: categoriesError } = useTypedSelector(state => state.categories);
+  const { projects, isLoading: isProjectsLoading, error: projectsError } = useTypedSelector(state => state.projects);
+
+  const { fetchCategories, changeActiveCategory } = useActions();
+  const { fetchProjects } = useActions();
+
+  const setActiveCategory = (cat: ICategory) => {
+    if (!activeCatagory) {
+      changeActiveCategory(cat);
+      return;
+    }
+    if (activeCatagory.id === cat.id) {
+      changeActiveCategory(null);
+      return;
+    }
+    changeActiveCategory(cat);
+  };
+
+  useEffect(() => {
+    fetchCategories()
+    fetchProjects()
+  }, [])
+
+  if (projectsError || categoriesError) {
+    return <h1>{projectsError || categoriesError}</h1>
+  }
+
+  if (isProjectsLoading || isCategoriesLoading) {
+    return <h1>Загрузка...</h1>
+  }
+
   return (
     <div style={{
       margin: "0 5rem"
     }}>
       <h1>Cases</h1>
+
       <div className={styles.grid}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => {
+        {categories.map(cat => {
           return (
             <div style={{
-              border: "0.2rem solid red"
-            }} key={i}>
-              <div>Content</div>
+              border: activeCatagory?.id === cat.id ? "0.1rem solid red" : "0.1rem solid grey"
+            }}
+              onClick={() => setActiveCategory(cat)}
+              key={cat.id}
+            >
+              <div>{cat.name}</div>
+            </div>
+          )
+        })}
+      </div>
+      <hr />
+      <div className={styles.grid}>
+        {projects.map(pr => {
+          return (
+            <div style={{
+              border: "0.2rem solid darkGrey"
+            }} key={pr.id}>
+              <div>{pr.title}</div>
             </div>
           )
         })}
