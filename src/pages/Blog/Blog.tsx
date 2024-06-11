@@ -1,7 +1,9 @@
+import { PageTitle } from "@/components";
+
 export const Blog = () => {
   return (
     <div>
-      <h1>Blog</h1>
+      <PageTitle />
     </div>
   )
 };
