@@ -2,20 +2,27 @@ import styles from "./Cases.module.scss";
 import { useEffect } from "react";
 import { useActions } from "@/store/actions";
 import { useTypedSelector } from "@/hooks/reduxHooks";
+import { useGetAllProjectsQuery } from "@/store/services/projectsServices";
 
 export const Cases = () => {
   const { activeCatagory, categories, isLoading: isCategoriesLoading, error: categoriesError } = useTypedSelector(state => state.categories);
-  const { projects, isLoading: isProjectsLoading, error: projectsError } = useTypedSelector(state => state.projects);
+  // Redux and Redux Toolkit way to get data:
+  // const { projects, isLoading: isProjectsLoading, error: projectsError } = useTypedSelector(state => state.projects);
 
-  const { fetchCategories, changeActiveCategory, fetchProjects } = useActions();
+  // RTK Query modern way to get data
+  const { isError: projectsError, isLoading: isProjectsLoading, data: projects } = useGetAllProjectsQuery();
+
+  const { fetchCategories, changeActiveCategory } = useActions();
+  // const { fetchProjects } = useActions();
 
   useEffect(() => {
     fetchCategories()
-    fetchProjects()
+    // fetchProjects()
   }, [])
 
-  if (projectsError || categoriesError) {
-    return <h1>{projectsError || categoriesError}</h1>
+
+  if (categoriesError || projectsError) {
+    return <h1>Ошибка при загрузке</h1>
   }
 
   if (isProjectsLoading || isCategoriesLoading) {
@@ -44,7 +51,7 @@ export const Cases = () => {
       </div>
       <hr />
       <div className={styles.grid}>
-        {projects.map(pr => {
+        {projects && projects.map(pr => {
           return (
             <div style={{
               border: "0.2rem solid darkGrey"
