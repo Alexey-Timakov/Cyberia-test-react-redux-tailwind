@@ -2,7 +2,6 @@ import { Agency, Blog, Cases, Contacts, Main, Services } from "@/pages";
 import { Routes, Route } from "react-router-dom";
 import { TRoute } from "@/helpers/path";
 
-// Basic <BrowserRouter> configuration:
 export const Routing = () => {
   return (
     <Routes>

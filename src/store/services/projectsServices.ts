@@ -1,11 +1,11 @@
+import { IProject } from "@/models";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IProject } from "../reducers/projectsReducer";
 
 export const projectsApi = createApi({
   reducerPath: "projectsApi",
   refetchOnMountOrArgChange: 30,
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.test.cyberia.studio/api/v1/"
+    baseUrl: import.meta.env.VITE_API_URL
   }),
   endpoints: (builder) => ({
     getAllProjects: builder.query<IProject[], void>({
