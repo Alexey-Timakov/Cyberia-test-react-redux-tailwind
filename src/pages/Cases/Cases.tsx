@@ -1,14 +1,13 @@
 import styles from "./Cases.module.scss";
-import { useTypedSelector } from "@/store/reducers";
 import { useEffect } from "react";
 import { useActions } from "@/store/actions";
+import { useTypedSelector } from "@/hooks/reduxHooks";
 
 export const Cases = () => {
   const { activeCatagory, categories, isLoading: isCategoriesLoading, error: categoriesError } = useTypedSelector(state => state.categories);
   const { projects, isLoading: isProjectsLoading, error: projectsError } = useTypedSelector(state => state.projects);
 
-  const { fetchCategories, changeActiveCategory } = useActions();
-  const { fetchProjects } = useActions();
+  const { fetchCategories, changeActiveCategory, fetchProjects } = useActions();
 
   useEffect(() => {
     fetchCategories()
