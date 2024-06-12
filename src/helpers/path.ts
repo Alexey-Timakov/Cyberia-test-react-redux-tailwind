@@ -1,4 +1,5 @@
 export enum TRoute {
+  main,
   agency,
   services,
   cases,
@@ -11,6 +12,12 @@ export interface INavLink {
   pathName: string;
   title: string;
 }
+
+export const mainLink: INavLink = {
+  id: TRoute.main,
+  pathName: "",
+  title: "Главная"
+};
 
 export const navigations: INavLink[] = [
   { pathName: "agency", title: "Агенство", id: TRoute.agency },

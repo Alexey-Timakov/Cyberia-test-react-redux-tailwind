@@ -1,0 +1,14 @@
+.crumbs {
+  margin-bottom: 13rem;
+
+  >a {
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 2.1rem;
+    color: var(--crumb);
+
+    &.active {
+      color: var(--white);
+    }
+  }
+}

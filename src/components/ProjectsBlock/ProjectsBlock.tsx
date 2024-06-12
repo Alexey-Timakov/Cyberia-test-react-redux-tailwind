@@ -7,14 +7,14 @@ interface IProjectBlock {
   projects: IProject[]
 }
 
-export const ProjectsBlock = ({ projects }: IProjectBlock): ReactElement<HTMLDivElement> => {
+export const ProjectsBlock = ({ projects }: IProjectBlock): ReactElement<HTMLElement> => {
   return (
-    <div className={styles.projects}>
+    <section className={styles.projects}>
       {projects && projects.map(project => {
         return (
           <ProjectItem project={project} key={project.id} />
         )
       })}
-    </div>
+    </section>
   )
 }
