@@ -1,41 +1,55 @@
-import { PageTitle } from "@/components";
-import styles from "./Cases.module.scss";
+import { ErrorMessage, Loader, PageTitle, ProjectsBlock, VerticalDivider } from "@/components";
 import { useGetAllProjectsQuery } from "@/store/services";
 import { useGetAllCategoriesQuery } from "@/store/services";
 import { CategoriesBlock } from "@/components/CategoriesBlock/CategoriesBlock";
+import { useTypedSelector } from "@/hooks";
 
 export const Cases = () => {
+  const { activeCatagory } = useTypedSelector(state => state.categories);
 
-  const { isError: projectsError, isLoading: isProjectsLoading, data: projects } = useGetAllProjectsQuery();
+  const { error, isError: projectsError, isLoading: isProjectsLoading, data: projects } = useGetAllProjectsQuery();
 
   const { isError: categoriesError, isLoading: isCategoriesLoading, data: categories } = useGetAllCategoriesQuery();
 
   if (categoriesError || projectsError) {
-    return <h1>Ошибка при загрузке</h1>
+
+    return (
+      <>
+        <PageTitle />
+        <VerticalDivider verticalGap={6.5} />
+        < ErrorMessage error={error!} />
+      </>
+    )
   }
 
-  if (isProjectsLoading || isCategoriesLoading) {
-    return <h1>Загрузка...</h1>
-  }
+  const selectedProjects = activeCatagory
+    ? projects
+      ? projects.filter(project => project.categories.some(cat => cat.name === activeCatagory.name))
+      : []
+    : projects;
 
   return (
     <div>
+
       <PageTitle />
+
+      <VerticalDivider verticalGap={6.5} />
+
+      {(isProjectsLoading || isCategoriesLoading) &&
+        <div style={{
+          textAlign: "center"
+        }}>
+          <Loader />
+        </div>
+      }
 
       {categories && <CategoriesBlock categories={categories} />}
 
-      <hr />
-      <div className={styles.grid}>
-        {projects && projects.map(pr => {
-          return (
-            <div style={{
-              border: "0.2rem solid darkGrey"
-            }} key={pr.id}>
-              <div>{pr.title}</div>
-            </div>
-          )
-        })}
-      </div>
+      <VerticalDivider verticalGap={5.2} />
+
+      {selectedProjects && <ProjectsBlock projects={selectedProjects} />}
+
+      <VerticalDivider verticalGap={10} />
     </div>
   )
 };

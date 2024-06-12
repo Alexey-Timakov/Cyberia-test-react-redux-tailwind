@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { navigations } from "./path";
+import { navigations } from "../helpers/path";
 
 export const usePageTitle = (): string => {
   const { pathname } = useLocation();

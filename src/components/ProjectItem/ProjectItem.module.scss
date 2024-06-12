@@ -1,0 +1,77 @@
+.cell-wrapper {
+  position: relative;
+
+  &:after {
+    display: block;
+    content: "";
+    // Почему-то в макете размер 387*378, наверное ошибка, поэтому далее не 100% высота
+    padding-bottom: 97.5%;
+  }
+}
+
+.cell {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+}
+
+.project-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.2rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.icon {
+  fill: var(--blue)
+}
+
+.title-block {
+  position: absolute;
+  background-color: var(--dark-grey);
+  border-radius: 0.5rem;
+  top: 0;
+  right: 0;
+  width: 33%;
+  height: 33%;
+  transform: translate(-2.3rem, 2.7rem);
+
+  >div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:after {
+      position: absolute;
+      display: block;
+      top: 0;
+      right: 0;
+      width: 20%;
+      height: 20%;
+      content: "";
+      transform: translate(25%, -25%);
+      background-image: url("strange-icon.svg");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    >span {
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 2.9rem;
+      text-align: center;
+    }
+  }
+}

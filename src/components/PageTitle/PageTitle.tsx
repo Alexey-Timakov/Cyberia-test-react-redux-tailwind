@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, FC, HTMLAttributes, ReactElement } from "react"
 import styles from "./PageTitle.module.scss";
-import { usePageTitle } from "@/helpers/getTitle";
+import { usePageTitle } from "@/hooks";
 
 interface IPageTitle extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
 }
