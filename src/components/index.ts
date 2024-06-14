@@ -6,3 +6,4 @@ export { ProjectItem } from "./ProjectItem/ProjectItem.tsx"
 export { VerticalDivider } from "./VerticalDivider/VerticalDivider.tsx"
 export { Loader } from "./Loader/Loader.tsx";
 export { ErrorMessage } from "./ErrorMessage/ErrorMessage.tsx";
+export { Form } from "./Form/Form.tsx";
