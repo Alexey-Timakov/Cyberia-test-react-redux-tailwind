@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler, SubmitErrorHandler, Controller } from "react-hook-form";
-import { Button, outlinedInputClasses, TextField, ThemeProvider } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, outlinedInputClasses, TextField, ThemeProvider } from "@mui/material";
 import { ReactElement } from "react"
 import { createTheme } from '@mui/material/styles';
 import styles from "./Form.module.scss";
@@ -8,6 +8,7 @@ interface IFormInput {
   name: string;
   phone: string;
   email: string;
+  text: string;
 }
 
 export const Form = (): ReactElement<HTMLFormElement> => {
@@ -15,7 +16,8 @@ export const Form = (): ReactElement<HTMLFormElement> => {
     defaultValues: {
       email: "",
       name: "",
-      phone: ""
+      phone: "",
+      text: ""
     }
   });
 
@@ -119,15 +121,8 @@ export const Form = (): ReactElement<HTMLFormElement> => {
       fontSize: 16,
     },
   });
+
   const [nameInput, emailInput, phoneInput] = watch(["name", "email", "phone"]);
-
-  const onOkSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log("OK:\n", data);
-  }
-
-  const onErrorSubmit: SubmitErrorHandler<IFormInput> = (err) => {
-    console.error("ERROR:\n", err);
-  };
 
   const isEmailError = () => {
     if (!emailInput) return true
@@ -157,79 +152,114 @@ export const Form = (): ReactElement<HTMLFormElement> => {
     return false;
   }
 
-  return (
-    <form onSubmit={handleSubmit(onOkSubmit, onErrorSubmit)} noValidate>
-      <ThemeProvider theme={themeOptions}>
-        <Controller
-          name="name"
-          control={control}
-          rules={{ required: true, pattern: /^[A-Za-z ]+$/i, minLength: 2 }}
-          render={({ field }) =>
-            <TextField
-              id="name"
-              color="info"
-              label="Name"
-              style={{
-                marginBottom: "1rem"
-              }}
-              type="text"
-              helperText={field.value && errors.name?.type}
-              variant="outlined"
-              error={!!field.value && !!errors.name?.type}
-              fullWidth
-              value={field.value}
-              onChange={field.onChange}
-              required
-            />
-          }
-        />
-        <Controller
-          name="email"
-          control={control}
-          rules={{ required: isPhoneError(), pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i }}
-          render={({ field }) =>
-            <TextField
-              id="email"
-              color="info"
-              label="Email"
-              style={{
-                marginBottom: "1rem"
-              }}
-              helperText={field.value && errors.email?.type}
-              error={!!field.value && !!errors.email?.type}
-              variant="outlined"
-              fullWidth
-              type="email"
-              value={field.value}
-              onChange={field.onChange}
-              required
-            />
-          }
-        />
+  const onOkSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log("OK:\n", data);
+  }
 
-        <Controller
-          name="phone"
-          control={control}
-          rules={{ required: isEmailError(), pattern: /^(\+[1-9]{1}[0-9]{3,14})?([0-9]{9,14})$/i }}
-          render={({ field }) =>
-            <TextField
-              id="phone"
-              color="info"
-              label="Phone"
-              style={{
-                marginBottom: "1rem"
-              }}
-              helperText={field.value && errors.phone?.type}
-              error={!!field.value && !!errors.phone?.type}
-              variant="outlined"
-              fullWidth
-              type="tel"
-              value={field.value}
-              onChange={field.onChange}
-              required
-            />
-          }
-        />
+  const onErrorSubmit: SubmitErrorHandler<IFormInput> = (err) => {
+    console.error("ERROR:\n", err);
+  }
+
+  return (
+    <form className={styles.form} onSubmit={handleSubmit(onOkSubmit, onErrorSubmit)} noValidate>
+      <ThemeProvider theme={themeOptions}>
+        <section>
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: true, pattern: /^[A-Za-z ]+$/i, minLength: 2 }}
+            render={({ field }) =>
+              <TextField
+                id="name"
+                color="info"
+                label="Ваше имя"
+                style={{
+                  marginBottom: "1rem"
+                }}
+                type="text"
+                helperText={field.value && errors.name?.type}
+                variant="outlined"
+                error={!!field.value && !!errors.name?.type}
+                fullWidth
+                value={field.value}
+                onChange={field.onChange}
+                required
+              />
+            }
+          />
+          <Controller
+            name="email"
+            control={control}
+            rules={{ required: isPhoneError(), pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i }}
+            render={({ field }) =>
+              <TextField
+                id="email"
+                color="info"
+                label="Email"
+                style={{
+                  marginBottom: "1rem"
+                }}
+                helperText={field.value && errors.email?.type}
+                error={!!field.value && !!errors.email?.type}
+                variant="outlined"
+                fullWidth
+                type="email"
+                value={field.value}
+                onChange={field.onChange}
+                required
+              />
+            }
+          />
+
+          <Controller
+            name="phone"
+            control={control}
+            rules={{ required: isEmailError(), pattern: /^(\+[1-9]{1}[0-9]{3,14})?([0-9]{9,14})$/i }}
+            render={({ field }) =>
+              <TextField
+                id="phone"
+                color="info"
+                label="Телефон"
+                style={{
+                  marginBottom: "1rem"
+                }}
+                helperText={field.value && errors.phone?.type}
+                error={!!field.value && !!errors.phone?.type}
+                variant="outlined"
+                fullWidth
+                type="tel"
+                value={field.value}
+                onChange={field.onChange}
+                required
+              />
+            }
+          />
+          <Controller
+            name="text"
+            control={control}
+            rules={{ required: true, pattern: /^[A-Za-z ]+$/i, minLength: 2 }}
+            render={({ field }) =>
+              <TextField
+                id="text"
+                color="info"
+                label="Сообщение"
+                style={{
+                  marginBottom: "1rem"
+                }}
+                type="text"
+                multiline
+                minRows={3}
+                variant="outlined"
+                fullWidth
+                value={field.value}
+                onChange={field.onChange}
+                required
+              />
+            }
+          />
+        </section>
+
+        <FormControlLabel control={<Checkbox />} label="Согласие на обработку персональных данных" />
 
         <Button
           disableRipple
