@@ -96,6 +96,27 @@ export const Form = (): ReactElement<HTMLFormElement> => {
 
           }
         }
+      },
+      MuiFormControlLabel: {
+        styleOverrides: {
+          label: ({ theme }) => ({
+            color: theme.palette.text.secondary,
+            fontSize: '1.8rem',
+            fontWeight: 300
+          })
+        }
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            borderRadius: '8.5rem',
+            padding: '2rem 4.5rem',
+            textTransform: "initial"
+            // width: Fixed(259px)px;
+            // height: Hug(62px)px;
+            // padding: 20px 45px 20px 45px;
+          })
+        }
       }
     },
     palette: {
@@ -173,9 +194,6 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 id="name"
                 color="info"
                 label="Ваше имя"
-                style={{
-                  marginBottom: "1rem"
-                }}
                 type="text"
                 helperText={field.value && errors.name?.type}
                 variant="outlined"
@@ -196,9 +214,6 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 id="email"
                 color="info"
                 label="Email"
-                style={{
-                  marginBottom: "1rem"
-                }}
                 helperText={field.value && errors.email?.type}
                 error={!!field.value && !!errors.email?.type}
                 variant="outlined"
@@ -243,9 +258,6 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 id="text"
                 color="info"
                 label="Сообщение"
-                style={{
-                  marginBottom: "1rem"
-                }}
                 type="text"
                 multiline
                 minRows={3}
@@ -259,16 +271,25 @@ export const Form = (): ReactElement<HTMLFormElement> => {
           />
         </section>
 
-        <FormControlLabel control={<Checkbox />} label="Согласие на обработку персональных данных" />
+        <FormControlLabel
+          control={<Checkbox
+            sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
+            color="info"
+          />}
+          label="Согласие на обработку персональных данных"
+        />
 
         <Button
           disableRipple
           disabled={!isSubmitActive()}
+          style={{
+            display: "block"
+          }}
           type="submit"
           variant="contained"
           color="primary"
         >
-          Sign Up
+          Обсудить проект
         </Button>
         {!isSubmitActive() && <span style={{
           display: "block",
