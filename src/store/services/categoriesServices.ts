@@ -11,7 +11,7 @@ export const categoriesApi = createApi({
     getAllCategories: builder.query<ICategory[], void>({
       query: () => ("project-categories"),
       transformResponse: (response: { items: ICategory[] }) => response.items,
-    }),
+    })
   })
 })
 

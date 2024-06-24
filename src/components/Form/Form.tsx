@@ -12,13 +12,14 @@ interface IFormInput {
 }
 
 export const Form = (): ReactElement<HTMLFormElement> => {
-  const { handleSubmit, formState: { errors }, watch, control } = useForm<IFormInput>({
+  const { handleSubmit, formState, watch, control, setValue } = useForm<IFormInput>({
     defaultValues: {
       email: "",
       name: "",
       phone: "",
       text: ""
-    }
+    },
+    mode: "onChange"
   });
 
   const themeOptions = createTheme({
@@ -108,14 +109,14 @@ export const Form = (): ReactElement<HTMLFormElement> => {
       },
       MuiButton: {
         styleOverrides: {
-          root: ({ theme }) => ({
+          root: {
             borderRadius: '8.5rem',
             padding: '2rem 4.5rem',
             textTransform: "initial"
             // width: Fixed(259px)px;
             // height: Hug(62px)px;
             // padding: 20px 45px 20px 45px;
-          })
+          }
         }
       }
     },
@@ -154,9 +155,10 @@ export const Form = (): ReactElement<HTMLFormElement> => {
   };
 
   const isPhoneError = () => {
+
     if (!phoneInput) return true
 
-    if (!phoneInput.match(/^(\+[1-9]{1}[0-9]{3,14})?([0-9]{9,14})$/i)) return true
+    if (!phoneInput.match(/(\+7)((\d{10})|(\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}))/)) return true
 
     return false
   };
@@ -164,7 +166,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
   const isSubmitActive = () => {
     if (nameInput.length < 2) return false;
 
-    if (errors.name?.type) return false;
+    if (formState.errors.name?.type) return false;
 
     if (!isPhoneError()) return true;
 
@@ -195,9 +197,9 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 color="info"
                 label="Ваше имя"
                 type="text"
-                helperText={field.value && errors.name?.type}
+                helperText={field.value && formState.errors.name?.type}
                 variant="outlined"
-                error={!!field.value && !!errors.name?.type}
+                error={!!field.value && !!formState.errors.name?.type}
                 fullWidth
                 value={field.value}
                 onChange={field.onChange}
@@ -214,8 +216,8 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 id="email"
                 color="info"
                 label="Email"
-                helperText={field.value && errors.email?.type}
-                error={!!field.value && !!errors.email?.type}
+                helperText={field.value && formState.errors.email?.type}
+                error={!!field.value && !!formState.errors.email?.type}
                 variant="outlined"
                 fullWidth
                 type="email"
@@ -229,30 +231,67 @@ export const Form = (): ReactElement<HTMLFormElement> => {
           <Controller
             name="phone"
             control={control}
-            rules={{ required: isEmailError(), pattern: /^(\+[1-9]{1}[0-9]{3,14})?([0-9]{9,14})$/i }}
+            rules={{
+              required: isEmailError(),
+              pattern: /(\+\d{1})-(\d{3})-(\d{3})-(\d{2})-(\d{1,2})/,
+              maxLength: 16,
+              minLength: 16,
+              onChange(event) {
+                const cleanNumber: string = event.target.value.replaceAll(/\D|\s/g, "");
+
+                let resultValue: string = cleanNumber[0] === "7"
+                  ? cleanNumber.slice(0, 11)
+                  : cleanNumber.length
+                    ? "7".concat(cleanNumber.slice(0, 10))
+                    : "";
+
+                if (resultValue.length >= 10) {
+                  resultValue = resultValue.replace(/(\d{1})(\d{3})(\d{3})(\d{2})(\d{1,2})/, '+$1-$2-$3-$4-$5')
+                }
+                if (resultValue.length >= 8 && resultValue.length < 10) {
+                  resultValue = resultValue.replace(/(\d{1})(\d{3})(\d{3})(\d{1,2})/, '+$1-$2-$3-$4')
+                }
+                if (resultValue.length >= 5 && resultValue.length < 8) {
+                  resultValue = resultValue.replace(/(\d{1})(\d{3})(\d{1,3})/, '+$1-$2-$3')
+                }
+                if (resultValue.length >= 2 && resultValue.length < 5) {
+                  resultValue = resultValue.replace(/(\d{1})(\d{1,3})/, '+$1-$2')
+                }
+                if (resultValue.length === 1) {
+                  resultValue = resultValue.replace(/(\d{1})/, '+$1-')
+                }
+
+                if (resultValue.length === 6 || resultValue.length === 10 || resultValue.length === 13) {
+                  resultValue = resultValue.concat("-");
+                }
+
+                setValue("phone", resultValue);
+              }
+            }}
             render={({ field }) =>
               <TextField
                 id="phone"
                 color="info"
+                type="tel"
+                prefix="+"
                 label="Телефон"
                 style={{
                   marginBottom: "1rem"
                 }}
-                helperText={field.value && errors.phone?.type}
-                error={!!field.value && !!errors.phone?.type}
+
+                helperText={field.value && formState.errors.phone && "Неверный формат"}
+                error={!!field.value && !!formState.errors.phone?.type}
                 variant="outlined"
                 fullWidth
-                type="tel"
                 value={field.value}
                 onChange={field.onChange}
-                required
+
               />
             }
           />
           <Controller
             name="text"
             control={control}
-            rules={{ required: true, pattern: /^[A-Za-z ]+$/i, minLength: 2 }}
             render={({ field }) =>
               <TextField
                 id="text"
@@ -265,10 +304,10 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 fullWidth
                 value={field.value}
                 onChange={field.onChange}
-                required
               />
             }
           />
+
         </section>
 
         <FormControlLabel
