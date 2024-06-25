@@ -1,4 +1,4 @@
-import { ErrorMessage, Loader, PageTitle, ProjectsBlock, VerticalDivider } from "@/components";
+import { ErrorMessage, Form, Loader, PageTitle, ProjectsBlock, VerticalDivider } from "@/components";
 import { useGetAllProjectsQuery } from "@/store/services";
 import { useGetAllCategoriesQuery } from "@/store/services";
 import { CategoriesBlock } from "@/components/CategoriesBlock/CategoriesBlock";
@@ -50,6 +50,8 @@ export const Cases = () => {
       {selectedProjects && <ProjectsBlock projects={selectedProjects} />}
 
       <VerticalDivider verticalGap={10} />
+
+      <Form />
     </div>
   )
 };

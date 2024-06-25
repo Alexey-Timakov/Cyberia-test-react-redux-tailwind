@@ -1,8 +1,11 @@
-import { useForm, SubmitHandler, SubmitErrorHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler, SubmitErrorHandler, Controller, RegisterOptions, LiteralUnion } from "react-hook-form";
 import { Button, Checkbox, FormControlLabel, outlinedInputClasses, TextField, ThemeProvider } from "@mui/material";
 import { ReactElement } from "react"
 import { createTheme } from '@mui/material/styles';
 import styles from "./Form.module.scss";
+import { useSendFormMutation } from "@/store/services";
+import { IFormDTO } from "@/store/services/formServices";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 interface IFormInput {
   name: string;
@@ -13,7 +16,11 @@ interface IFormInput {
 }
 
 export const Form = (): ReactElement<HTMLFormElement> => {
-  const { handleSubmit, formState, watch, control, setValue } = useForm<IFormInput>({
+  const [sendForm, resObject] = useSendFormMutation({
+    fixedCacheKey: "shared-send-form"
+  });
+
+  const { handleSubmit, formState, watch, control, setValue, reset } = useForm<IFormInput>({
     defaultValues: {
       email: "",
       name: "",
@@ -112,12 +119,12 @@ export const Form = (): ReactElement<HTMLFormElement> => {
       MuiButton: {
         styleOverrides: {
           root: {
+            margin: "0 auto",
+            display: "flex",
+            width: "25.9rem",
             borderRadius: '8.5rem',
             padding: '2rem 4.5rem',
-            textTransform: "initial"
-            // width: Fixed(259px)px;
-            // height: Hug(62px)px;
-            // padding: 20px 45px 20px 45px;
+            textTransform: "initial",
           }
         }
       }
@@ -178,13 +185,38 @@ export const Form = (): ReactElement<HTMLFormElement> => {
     return false;
   }
 
-  const onOkSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log("OK:\n", data);
+  const onOkSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const formDto = {} as IFormDTO;
+    formDto.name = data.name;
+    formDto.message = data.text;
+    if (data.email) formDto.email = data.email;
+    if (data.phone) formDto.phone = data.phone;
+
+    await sendForm(formDto);
+
+    if (resObject.isSuccess) onSuccess();
+    if (resObject.isError) onError();
   }
 
   const onErrorSubmit: SubmitErrorHandler<IFormInput> = (err) => {
     console.error("ERROR:\n", err);
   }
+
+  const onSuccess = () => {
+    reset();
+  };
+
+  const onError = () => {
+    console.error(resObject.error);
+  }
+
+  const getHelperText = (type: LiteralUnion<keyof RegisterOptions, string>, length?: number): string => {
+    console.log(type);
+    if (type === "pattern") return "Некорректный формат";
+    if (type === "minLength" && length) return `Минимальная длина - ${length} символов`;
+
+    else return "Что-то вообще не то..."
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onOkSubmit, onErrorSubmit)} noValidate>
@@ -200,7 +232,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 color="info"
                 label="Ваше имя"
                 type="text"
-                helperText={field.value && formState.errors.name?.type}
+                helperText={!!nameInput && formState.errors.name && getHelperText(formState.errors.name.type, 2)}
                 variant="outlined"
                 error={!!field.value && !!formState.errors.name?.type}
                 fullWidth
@@ -219,7 +251,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 id="email"
                 color="info"
                 label="Email"
-                helperText={field.value && formState.errors.email?.type}
+                helperText={field.value && formState.errors.email && getHelperText(formState.errors.email?.type)}
                 error={!!field.value && !!formState.errors.email?.type}
                 variant="outlined"
                 fullWidth
@@ -282,7 +314,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                   marginBottom: "1rem"
                 }}
 
-                helperText={field.value && formState.errors.phone && "Неверный формат"}
+                helperText={field.value && formState.errors.phone && getHelperText(formState.errors.phone.type, 11)}
                 error={!!field.value && !!formState.errors.phone?.type}
                 variant="outlined"
                 fullWidth
@@ -318,11 +350,17 @@ export const Form = (): ReactElement<HTMLFormElement> => {
           control={control}
           render={({ field }) =>
             <FormControlLabel
+              style={{
+                marginTop: "2.5rem",
+                marginBottom: "5rem"
+              }}
               control={
                 <Checkbox
                   checked={field.value}
                   onChange={field.onChange}
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
+                  sx={{
+                    '& .MuiSvgIcon-root': { fontSize: 25 }
+                  }}
                   color="info"
                 />}
               label="Согласие на обработку персональных данных"
@@ -330,18 +368,16 @@ export const Form = (): ReactElement<HTMLFormElement> => {
           }
         />
 
-        <Button
-          disableRipple
+        <LoadingButton
+          loading={resObject.isLoading}
+          loadingPosition="center"
           disabled={!isSubmitActive() || !check}
-          style={{
-            display: "block"
-          }}
           type="submit"
           variant="contained"
           color="primary"
         >
-          Обсудить проект
-        </Button>
+          {resObject.isLoading ? "..." : "Обсудить проект"}
+        </LoadingButton>
 
         {!isSubmitActive() && formState.isDirty && <span style={{
           display: "block",
