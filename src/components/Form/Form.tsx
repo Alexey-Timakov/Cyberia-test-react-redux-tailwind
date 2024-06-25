@@ -9,6 +9,7 @@ interface IFormInput {
   phone: string;
   email: string;
   text: string;
+  check: boolean;
 }
 
 export const Form = (): ReactElement<HTMLFormElement> => {
@@ -17,7 +18,8 @@ export const Form = (): ReactElement<HTMLFormElement> => {
       email: "",
       name: "",
       phone: "",
-      text: ""
+      text: "",
+      check: false
     },
     mode: "onChange"
   });
@@ -144,7 +146,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
     },
   });
 
-  const [nameInput, emailInput, phoneInput] = watch(["name", "email", "phone"]);
+  const [nameInput, emailInput, phoneInput, check] = watch(["name", "email", "phone", "check"]);
 
   const isEmailError = () => {
     if (!emailInput) return true
@@ -155,10 +157,9 @@ export const Form = (): ReactElement<HTMLFormElement> => {
   };
 
   const isPhoneError = () => {
-
     if (!phoneInput) return true
 
-    if (!phoneInput.match(/(\+7)((\d{10})|(\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}))/)) return true
+    if (!phoneInput.match(/(\+\d{1})-(\d{3})-(\d{3})-(\d{2})-(\d{2})/)) return true
 
     return false
   };
@@ -168,9 +169,11 @@ export const Form = (): ReactElement<HTMLFormElement> => {
 
     if (formState.errors.name?.type) return false;
 
-    if (!isPhoneError()) return true;
+    if (!isPhoneError() && !isEmailError()) return true;
 
-    if (!isEmailError()) return true;
+    if (!isPhoneError() && !emailInput) return true;
+
+    if (!isEmailError() && !phoneInput) return true;
 
     return false;
   }
@@ -190,7 +193,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
           <Controller
             name="name"
             control={control}
-            rules={{ required: true, pattern: /^[A-Za-z ]+$/i, minLength: 2 }}
+            rules={{ required: true, pattern: /^[A-Za-zА-Яа-я ]+$/i, minLength: 2 }}
             render={({ field }) =>
               <TextField
                 id="name"
@@ -233,7 +236,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
             control={control}
             rules={{
               required: isEmailError(),
-              pattern: /(\+\d{1})-(\d{3})-(\d{3})-(\d{2})-(\d{1,2})/,
+              pattern: /(\+\d{1})-(\d{3})-(\d{3})-(\d{2})-(\d{2})/,
               maxLength: 16,
               minLength: 16,
               onChange(event) {
@@ -285,7 +288,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 fullWidth
                 value={field.value}
                 onChange={field.onChange}
-
+                required
               />
             }
           />
@@ -310,17 +313,26 @@ export const Form = (): ReactElement<HTMLFormElement> => {
 
         </section>
 
-        <FormControlLabel
-          control={<Checkbox
-            sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
-            color="info"
-          />}
-          label="Согласие на обработку персональных данных"
+        <Controller
+          name="check"
+          control={control}
+          render={({ field }) =>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={field.value}
+                  onChange={field.onChange}
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 25 } }}
+                  color="info"
+                />}
+              label="Согласие на обработку персональных данных"
+            />
+          }
         />
 
         <Button
           disableRipple
-          disabled={!isSubmitActive()}
+          disabled={!isSubmitActive() || !check}
           style={{
             display: "block"
           }}
@@ -330,13 +342,14 @@ export const Form = (): ReactElement<HTMLFormElement> => {
         >
           Обсудить проект
         </Button>
-        {!isSubmitActive() && <span style={{
+
+        {!isSubmitActive() && formState.isDirty && <span style={{
           display: "block",
           fontSize: "1.4rem",
           fontWeight: "300",
           color: "#F44336",
           marginTop: "1rem"
-        }}>At least Name and Phone (or Email) field should be provided</span>}
+        }}>По крайней мере Имя и один контакт (Телефон или Email) должны быть указаны</span>}
       </ThemeProvider>
     </form>
   )
