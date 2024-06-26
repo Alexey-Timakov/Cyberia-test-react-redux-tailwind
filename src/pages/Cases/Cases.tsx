@@ -1,7 +1,7 @@
-import { ErrorMessage, Form, Loader, PageTitle, ProjectsBlock, VerticalDivider } from "@/components";
+import { ErrorMessage, FormBlock, Loader, PageTitle, ProjectsBlock, VerticalDivider } from "@/components";
 import { useGetAllProjectsQuery } from "@/store/services";
 import { useGetAllCategoriesQuery } from "@/store/services";
-import { CategoriesBlock } from "@/components/CategoriesBlock/CategoriesBlock";
+import { CategoriesBlock } from "@/components";
 import { useTypedSelector } from "@/hooks";
 
 export const Cases = () => {
@@ -17,7 +17,7 @@ export const Cases = () => {
       <>
         <PageTitle />
         <VerticalDivider verticalGap={6.5} />
-        < ErrorMessage error={error!} />
+        <ErrorMessage error={error!} />
       </>
     )
   }
@@ -51,7 +51,7 @@ export const Cases = () => {
 
       <VerticalDivider verticalGap={10} />
 
-      <Form />
+      <FormBlock />
     </div>
   )
 };

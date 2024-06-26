@@ -1,11 +1,11 @@
 import { useForm, SubmitHandler, SubmitErrorHandler, Controller, RegisterOptions, LiteralUnion } from "react-hook-form";
-import { Button, Checkbox, FormControlLabel, outlinedInputClasses, TextField, ThemeProvider } from "@mui/material";
+import { Checkbox, FormControlLabel, TextField, ThemeProvider } from "@mui/material";
 import { ReactElement } from "react"
-import { createTheme } from '@mui/material/styles';
 import styles from "./Form.module.scss";
 import { useSendFormMutation } from "@/store/services";
-import { IFormDTO } from "@/store/services/formServices";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { themeOptions } from "@/theme";
+import { IFormDTO } from "@/models";
 
 interface IFormInput {
   name: string;
@@ -16,9 +16,7 @@ interface IFormInput {
 }
 
 export const Form = (): ReactElement<HTMLFormElement> => {
-  const [sendForm, resObject] = useSendFormMutation({
-    fixedCacheKey: "shared-send-form"
-  });
+  const [sendForm, resObject] = useSendFormMutation({ fixedCacheKey: "shared-send-form" });
 
   const { handleSubmit, formState, watch, control, setValue, reset } = useForm<IFormInput>({
     defaultValues: {
@@ -31,129 +29,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
     mode: "onChange"
   });
 
-  const themeOptions = createTheme({
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            '--TextField-brandBorderColor': '#EEF3FF',
-            '--TextField-brandBorderHoverColor': '#FFFFFF',
-            '--TextField-brandBorderFocusedColor': '#FFFFFF',
-            '--TextField-error': '#F44336',
-            '& label.Mui-focused': {
-              color: 'var(--TextField-brandBorderFocusedColor)',
-            },
-          },
-        },
-      },
-      MuiOutlinedInput: {
-        styleOverrides: {
-          notchedOutline: {
-            borderColor: 'var(--TextField-brandBorderColor)',
-          },
-          root: {
-            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: 'var(--TextField-brandBorderHoverColor)',
-            },
-            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: 'var(--TextField-brandBorderFocusedColor)',
-            },
-            '& legend': {
-              "maxWidth": "100% !important"
-            }
-          },
-        },
-      },
-      MuiFilledInput: {
-        styleOverrides: {
-          root: {
-            '&::before, &::after': {
-              borderBottom: '0.2rem solid var(--TextField-brandBorderColor)',
-            },
-            '&:hover:not(.Mui-disabled, .Mui-error):before': {
-              borderBottom: '0.2rem solid var(--TextField-brandBorderHoverColor)',
-            },
-            '&.Mui-focused:after': {
-              borderBottom: '0.2rem solid var(--TextField-brandBorderFocusedColor)',
-            },
-          },
-        },
-      },
-      MuiInput: {
-        styleOverrides: {
-          root: {
-            '&::before': {
-              borderBottom: '0.2rem solid var(--TextField-brandBorderColor)',
-            },
-            '&:hover:not(.Mui-disabled, .Mui-error):before': {
-              borderBottom: '0.2rem solid var(--TextField-brandBorderHoverColor)',
-            },
-            '&.Mui-focused:after': {
-              borderBottom: '0.2rem solid var(--TextField-brandBorderFocusedColor)',
-            },
-          },
-        },
-      },
-      MuiFormLabel: {
-        styleOverrides: {
-          root: {
-            '&': {
-              'transform': 'translate(1.4rem, -0.9rem) scale(0.75)',
-            },
-            '&.Mui-focused.Mui-error': {
-              color: 'var(--TextField-error)'
-            }
-
-          }
-        }
-      },
-      MuiFormControlLabel: {
-        styleOverrides: {
-          label: ({ theme }) => ({
-            color: theme.palette.text.secondary,
-            fontSize: '1.8rem',
-            fontWeight: 300
-          })
-        }
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            margin: "0 auto",
-            display: "flex",
-            width: "25.9rem",
-            borderRadius: '8.5rem',
-            padding: '2rem 4.5rem',
-            textTransform: "initial",
-          }
-        }
-      }
-    },
-    palette: {
-      mode: 'dark',
-      primary: {
-        main: '#2D76F9',
-      },
-      secondary: {
-        main: '#f50057',
-      },
-      text: {
-        primary: '#EEF3FF',
-      },
-      info: {
-        main: '#EEF3FF',
-      },
-    },
-    shape: {
-      borderRadius: 8,
-    },
-    typography: {
-      htmlFontSize: 10,
-      fontSize: 16,
-    },
-  });
-
-  const [nameInput, emailInput, phoneInput, check] = watch(["name", "email", "phone", "check"]);
+  const [nameInput, emailInput, phoneInput, message, check] = watch(["name", "email", "phone", "text", "check"]);
 
   const isEmailError = () => {
     if (!emailInput) return true
@@ -174,6 +50,8 @@ export const Form = (): ReactElement<HTMLFormElement> => {
   const isSubmitActive = () => {
     if (nameInput.length < 2) return false;
 
+    if (!message) return false;
+
     if (formState.errors.name?.type) return false;
 
     if (!isPhoneError() && !isEmailError()) return true;
@@ -192,10 +70,10 @@ export const Form = (): ReactElement<HTMLFormElement> => {
     if (data.email) formDto.email = data.email;
     if (data.phone) formDto.phone = data.phone;
 
-    await sendForm(formDto);
+    const res = await sendForm(formDto);
 
-    if (resObject.isSuccess) onSuccess();
-    if (resObject.isError) onError();
+    if (res.data) onSuccess();
+    if (res.error) onError();
   }
 
   const onErrorSubmit: SubmitErrorHandler<IFormInput> = (err) => {
@@ -203,15 +81,16 @@ export const Form = (): ReactElement<HTMLFormElement> => {
   }
 
   const onSuccess = () => {
+    console.log(resObject);
     reset();
   };
 
   const onError = () => {
-    console.error(resObject.error);
+    console.error(resObject);
   }
 
   const getHelperText = (type: LiteralUnion<keyof RegisterOptions, string>, length?: number): string => {
-    console.log(type);
+    if (type === "required") return "Требуется ввести текст сообщения";
     if (type === "pattern") return "Некорректный формат";
     if (type === "minLength" && length) return `Минимальная длина - ${length} символов`;
 
@@ -258,7 +137,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 type="email"
                 value={field.value}
                 onChange={field.onChange}
-                required
+                required={isPhoneError()}
               />
             }
           />
@@ -320,25 +199,32 @@ export const Form = (): ReactElement<HTMLFormElement> => {
                 fullWidth
                 value={field.value}
                 onChange={field.onChange}
-                required
+                required={isEmailError()}
               />
             }
           />
           <Controller
             name="text"
             control={control}
+            rules={{
+              required: true,
+              minLength: 20
+            }}
             render={({ field }) =>
               <TextField
                 id="text"
                 color="info"
                 label="Сообщение"
                 type="text"
+                helperText={field.value && formState.errors.text && getHelperText(formState.errors.text.type, 20)}
+                error={!!field.value && !!formState.errors.text?.type}
                 multiline
                 minRows={3}
                 variant="outlined"
                 fullWidth
                 value={field.value}
                 onChange={field.onChange}
+                required
               />
             }
           />
@@ -368,24 +254,18 @@ export const Form = (): ReactElement<HTMLFormElement> => {
           }
         />
 
-        <LoadingButton
-          loading={resObject.isLoading}
-          loadingPosition="center"
-          disabled={!isSubmitActive() || !check}
-          type="submit"
-          variant="contained"
-          color="primary"
-        >
-          {resObject.isLoading ? "..." : "Обсудить проект"}
-        </LoadingButton>
-
-        {!isSubmitActive() && formState.isDirty && <span style={{
-          display: "block",
-          fontSize: "1.4rem",
-          fontWeight: "300",
-          color: "#F44336",
-          marginTop: "1rem"
-        }}>По крайней мере Имя и один контакт (Телефон или Email) должны быть указаны</span>}
+        <div className={styles["submit-wrapper"]}>
+          <LoadingButton
+            loading={resObject.isLoading}
+            loadingPosition="center"
+            disabled={!isSubmitActive() || !check}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            {resObject.isLoading ? "..." : "Обсудить проект"}
+          </LoadingButton>
+        </div>
       </ThemeProvider>
     </form>
   )

@@ -1,11 +1,6 @@
+import { IFormDTO, IResponseOkDTO } from "@/models";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export interface IFormDTO {
-  name: string;
-  phone?: string;
-  email?: string;
-  message?: string;
-}
 
 export const formApi = createApi({
   reducerPath: "formApi",
@@ -13,11 +8,12 @@ export const formApi = createApi({
     baseUrl: import.meta.env.VITE_API_URL
   }),
   endpoints: (builder) => ({
-    sendForm: builder.mutation<{ message: string }, IFormDTO>({
+    sendForm: builder.mutation<IResponseOkDTO, IFormDTO>({
       query: (data) => ({
-        url: "feedbacks",
         method: "POST",
-        body: { ...data }
+        url: "feedbacks",
+        body: { ...data },
+        // validateStatus: (response, result) => response.status === 200 && !result.isError
       }),
     }),
   })

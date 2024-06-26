@@ -7,3 +7,5 @@ export { VerticalDivider } from "./VerticalDivider/VerticalDivider.tsx"
 export { Loader } from "./Loader/Loader.tsx";
 export { ErrorMessage } from "./ErrorMessage/ErrorMessage.tsx";
 export { Form } from "./Form/Form.tsx";
+export { FormBlock } from "./FormBlock/FormBlock.tsx";
+export { FormMessage } from "./FormMessage/FormMessage.tsx";
