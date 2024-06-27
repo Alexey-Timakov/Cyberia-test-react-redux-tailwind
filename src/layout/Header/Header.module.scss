@@ -1,9 +1,6 @@
 .header {
-  height: 16.5rem;
-  display: grid;
   grid-template-areas: "logo . menu .";
   grid-template-columns: 13.1rem minmax(0, 19rem) minmax(auto, 52rem) auto;
-  align-content: center;
 
   >svg {
     grid-area: logo;
@@ -12,18 +9,8 @@
 
 .menu {
   grid-area: menu;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  justify-items: stretch;
-  align-items: center;
 
   >a {
-    width: max-content;
-    color: var(--white);
-    font-size: 1.8rem;
-    font-weight: 400;
-    line-height: 2.2rem;
-
     &.active {
       margin-bottom: -0.3rem;
       border-bottom: 0.3rem solid var(--white);

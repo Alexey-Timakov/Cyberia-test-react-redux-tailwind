@@ -1,4 +1,3 @@
-import "./App.module.scss";
 import { Layout } from "@/layout";
 import { Routing } from "./routing/routing";
 

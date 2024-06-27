@@ -8,13 +8,13 @@ interface ILayout extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTML
   children: ReactNode;
 }
 
-export const Layout = ({ children, className, ...props }: ILayout) => {
-  return <div className={cn(styles.layout, className)} {...props}>
-    <Header className={styles.header} />
-    <div className={styles.body}>
+export const Layout = ({ children, ...props }: ILayout) => {
+  return <div className={cn(styles.layout, "grid min-h-screen")} {...props}>
+    <Header className={cn(styles.header, "pl-20 pr-20")} />
+    <div className={cn(styles.body, "pl-20 pr-20")}>
       <Breadcrumbs />
       {children}
     </div>
-    <Footer className={styles.footer} />
+    <Footer className={cn(styles.footer, "pl-20 pr-20")} />
   </div>
 };

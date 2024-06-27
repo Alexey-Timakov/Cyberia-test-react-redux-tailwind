@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300;400;600&display=swap');
 
 :root {
@@ -10,11 +14,16 @@
   --red-error: #F44336;
 }
 
+@layer base {
+  html {
+    font-family: "Fira Sans Condensed", system-ui, sans-serif;
+    font-style: normal;
+    font-size: var(--font-base-size);
+  }
+}
+
 html,
 body {
-  font-family: "Fira Sans Condensed", sans-serif;
-  font-style: normal;
-  font-size: var(--font-base-size);
   background: linear-gradient(180deg, #24252F 0%, #31313F 36.46%, #242530 100%);
   margin: 0;
   padding: 0;

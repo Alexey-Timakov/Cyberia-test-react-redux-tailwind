@@ -10,23 +10,25 @@ interface IFooter extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTML
 
 export const Footer = ({ className, ...props }: IFooter): ReactElement => {
   return (
-    <footer className={cn(styles.footer, className)} {...props}>
-      <div className={styles["footer-content"]}>
+    <footer className={cn(styles.footer, className, "grid bg-dark-grey text-white pt-52 pb-60")} {...props}>
+      <div className={cn(styles["footer-content"], "grid")}>
         <div className={styles.logo}>
           <LogoIcon />
-          <p className={styles.tagline}>Веб-разработка и усиление IT-команд</p>
+          <p className="mt-12 mb-0, text-base font-normal">Веб-разработка и усиление IT-команд</p>
         </div>
 
         <section className={styles.contacts}>
-          <label>+7 999 123 45 67</label>
-          <label><a href="mailto:hello@cyberia.studio">hello@cyberia.studio</a></label>
-          <label>ул.Ярных, д.35, оф.10</label>
+          <label className="block w-fit text-base font-normal text-left mb-9">+7 999 123 45 67</label>
+          <label className="block w-fit text-base font-normal text-left mb-9">
+            <a href="mailto:hello@cyberia.studio">hello@cyberia.studio</a>
+          </label>
+          <label className="block w-fit text-base font-normal text-left mb-9">ул.Ярных, д.35, оф.10</label>
         </section>
 
-        <section className={styles["footer-menu"]}>
+        <section className={cn(styles["footer-menu"], "grid grid-flow-col gap-x-28")}>
           {navigations.map(navItem => {
             return (
-              <Link key={navItem.id} to={`/${navItem.pathName}`}>{navItem.title}</Link>
+              <Link className="w-fit text-base font-normal" key={navItem.id} to={`/${navItem.pathName}`}>{navItem.title}</Link>
             )
           })}
         </section>

@@ -10,12 +10,18 @@ interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTML
 
 export const Header = ({ className, ...props }: IHeader): ReactElement => {
   return (
-    <header className={cn(styles.header, className)} {...props}>
+    <header className={cn(styles.header, className, "grid content-center h-64")} {...props}>
       <LogoIcon />
-      <nav className={styles.menu}>
+      <nav className={cn(styles.menu, "grid grid-cols-5 justify-items-stretch items-center")}>
         {navigations.map(navItem => {
           return (
-            <NavLink className={({ isActive }) => isActive ? styles.active : ""} key={navItem.id} to={`/${navItem.pathName}`}>
+            <NavLink
+              key={navItem.id}
+              className={({ isActive }) => cn("w-max text-white text-base font-normal", {
+                [styles.active]: isActive
+              })}
+              to={`/${navItem.pathName}`}
+            >
               {navItem.title}
             </NavLink>
           )

@@ -1,28 +1,20 @@
 .layout {
-  display: grid;
   grid-template-areas:
     ". header ."
     ". body ."
     "footer footer footer";
   grid-template-rows: auto 1fr auto;
   grid-template-columns: auto minmax(65rem, 134rem) auto;
-  min-height: 100vh;
 }
 
 .header {
   grid-area: header;
-  padding-left: 5rem;
-  padding-right: 5rem;
 }
 
 .body {
   grid-area: body;
-  padding-left: 5rem;
-  padding-right: 5rem;
 }
 
 .footer {
   grid-area: footer;
-  padding-left: 5rem;
-  padding-right: 5rem;
 }
