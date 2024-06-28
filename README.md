@@ -1,30 +1,46 @@
-# React + TypeScript + Vite
+# Test task for Cyberia IT compony
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Test task for Cyberia IT company.
 
-Currently, two official plugins are available:
+## Stack used:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Vite
+- React 18
+- Tailwind and SCSS modules (with classnames library)
+- MUI components
+- Redux Toolkit with RTK Query
+- Axios
+- React Hook Form
 
-## Expanding the ESLint configuration
+## Key features:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Responsive and adaptive design
+- Form validation on the client side
+- Error checking from the backend responces
 
-- Configure the top-level `parserOptions` property like this:
+## How to install
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Download the project, open command line interface and go to the folder containig this downloaded project. Execute the following command:
+
+```bash
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To run project in development mode:
+
+```bash
+npm run dev
+```
+
+To build project:
+
+```bash
+npm run build
+npm run preview
+```
+
+To run linters project:
+
+```bash
+npm run lint
+```
