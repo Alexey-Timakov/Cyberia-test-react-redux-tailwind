@@ -4,7 +4,11 @@ import plugin from "tailwindcss/plugin";
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        "projects-main": "repeat(auto-fill, minmax(31rem, 1fr))"
+      }
+    },
     colors: {
       "white": "#FFFFFF",
       "light-grey": "#EFF3FF",
@@ -17,9 +21,12 @@ export default {
       sm: '1.2rem',
       base: ['1.8rem', '2.1rem'],
       xl: '2.1rem',
-      '2xl': '4.8rem',
-      "mob": "1.3rem"
-    }
+      '2xl': ['2.4rem', '2.8rem'],
+      '3xl': '2.7rem',
+      '4xl': ['4.8rem', '5.7rem'],
+      "mob": "1.3rem",
+      "pre": "1.4rem"
+    },
   },
   plugins: [
     plugin(function ({ addBase }) {

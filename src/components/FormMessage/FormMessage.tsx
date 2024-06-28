@@ -1,7 +1,6 @@
 import { useSendFormMutation } from "@/store/services";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ThemeProvider } from "@mui/material"
 import { useEffect, useState } from "react";
-import styles from "./FormMessage.module.scss";
 import { themeOptions } from "@/theme";
 import { isErrorDTO, isFetchBaseQueryError } from "@/helpers/typeGuads";
 
@@ -41,12 +40,19 @@ export const FormMessage = () => {
             }
           </DialogContentText>
           {res.isError && isFetchBaseQueryError(res.error) && isErrorDTO(res.error.data)
-            ? <pre className={styles.pre}>{JSON.stringify(res.error.data.errors, null, 2)}</pre>
-            : <pre className={styles.pre}>{JSON.stringify(res.error, null, 2)}</pre>
+            ? <pre className="text-pre">{JSON.stringify(res.error.data.errors, null, 2)}</pre>
+            : <pre className="text-pre">{JSON.stringify(res.error, null, 2)}</pre>
           }
         </DialogContent>
         <DialogActions >
-          <Button variant="contained" disableElevation color={res.isError ? "error" : "primary"} className={styles.button} onClick={() => setIsOpened(false)} autoFocus>
+          <Button
+            variant="contained"
+            disableElevation
+            color={res.isError ? "error" : "primary"}
+            className="text-base"
+            onClick={() => setIsOpened(false)}
+            autoFocus
+          >
             OK
           </Button>
         </DialogActions>

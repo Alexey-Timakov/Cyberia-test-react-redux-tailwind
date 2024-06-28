@@ -10,11 +10,11 @@ interface ILayout extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTML
 
 export const Layout = ({ children, ...props }: ILayout) => {
   return <div className={cn(styles.layout, "grid min-h-screen")} {...props}>
-    <Header className={cn(styles.header, "pl-20 pr-20")} />
-    <div className={cn(styles.body, "pl-20 pr-20")}>
+    <Header className={cn(styles.header, "px-20")} />
+    <div className={cn(styles.body, "px-20")}>
       <Breadcrumbs />
       {children}
     </div>
-    <Footer className={cn(styles.footer, "pl-20 pr-20")} />
+    <Footer className={cn(styles.footer, "px-20")} />
   </div>
 };

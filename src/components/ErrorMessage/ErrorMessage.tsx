@@ -1,5 +1,4 @@
 import { DetailedHTMLProps, HTMLAttributes, ReactElement } from "react";
-import styles from "./ErrorMessage.module.scss";
 import { SerializedError } from "@reduxjs/toolkit/react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 
@@ -18,8 +17,8 @@ export const ErrorMessage = ({ error }: IErrorMessage): ReactElement<HTMLParagra
   }
   return (
     <>
-      <p className={styles["error-title"]}>Произошла ошибка при получении данных:</p>
-      <p className={styles.error}>{errorMessage}</p>
+      <p className="text-3xl font-normal text-white mb-6">Произошла ошибка при получении данных:</p>
+      <p className="text-2xl font-normal text-white">{errorMessage}</p>
     </>
   )
 }

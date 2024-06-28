@@ -1,5 +1,4 @@
 import { DetailedHTMLProps, FC, HTMLAttributes, ReactElement } from "react"
-import styles from "./PageTitle.module.scss";
 import { usePageTitle } from "@/hooks";
 
 interface IPageTitle extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement> {
@@ -8,7 +7,7 @@ interface IPageTitle extends DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement
 export const PageTitle: FC<IPageTitle> = ({ ...props }): ReactElement<HTMLHeadingElement> => {
   const title = usePageTitle();
   return (
-    <h1 className={styles.h1} {...props}>
+    <h1 className="text-4xl font-semibold text-left text-light-grey m-0" {...props}>
       {title}
     </h1>
   )

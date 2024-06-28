@@ -15,8 +15,8 @@ export const CategoryItem = ({ cat }: ICategoryItem): ReactElement<HTMLButtonEle
   return (
     <button
       key={cat.id}
-      className={cn(styles.category, {
-        [styles.selected]: activeCatagory === cat
+      className={cn(styles.category, "relative cursor-pointer w-min whitespace-nowrap text-2xl py-4 px-12 text-light-grey bg-dark-grey hover:bg-white hover:text-dark-grey duration-300 border-none rounded-xl overflow-hidden", {
+        ["bg-white text-dark-grey"]: activeCatagory === cat
       })}
       onClick={() => changeActiveCategory(cat)}
     >

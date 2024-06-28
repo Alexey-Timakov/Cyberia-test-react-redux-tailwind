@@ -19,6 +19,5 @@
 
 .footer-menu {
   grid-area: nav;
-  grid-template-rows: repeat(3, 1fr);
   grid-auto-columns: min-content;
 }

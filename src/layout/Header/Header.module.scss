@@ -9,17 +9,4 @@
 
 .menu {
   grid-area: menu;
-
-  >a {
-    &.active {
-      margin-bottom: -0.3rem;
-      border-bottom: 0.3rem solid var(--white);
-    }
-
-    &:hover {
-      margin-bottom: -0.3rem;
-      border-bottom: 0.3rem solid var(--white);
-    }
-
-  }
 }

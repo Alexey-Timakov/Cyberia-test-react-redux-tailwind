@@ -30,15 +30,11 @@ export const Cases = () => {
 
   return (
     <div>
-
       <PageTitle />
 
       <VerticalDivider verticalGap={6.5} />
-
       {(isProjectsLoading || isCategoriesLoading) &&
-        <div style={{
-          textAlign: "center"
-        }}>
+        <div className="text-center">
           <Loader />
         </div>
       }

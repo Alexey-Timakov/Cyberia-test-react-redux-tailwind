@@ -17,8 +17,8 @@ export const Header = ({ className, ...props }: IHeader): ReactElement => {
           return (
             <NavLink
               key={navItem.id}
-              className={({ isActive }) => cn("w-max text-white text-base font-normal", {
-                [styles.active]: isActive
+              className={({ isActive }) => cn("w-max text-white text-base font-normal hover:mb-[-0.3rem] hover:border-b-[0.3rem] hover:border-white", {
+                ["mb-[-0.3rem] border-b-[0.3rem] border-white"]: isActive
               })}
               to={`/${navItem.pathName}`}
             >

@@ -17,15 +17,15 @@ export const Footer = ({ className, ...props }: IFooter): ReactElement => {
           <p className="mt-12 mb-0, text-base font-normal">Веб-разработка и усиление IT-команд</p>
         </div>
 
-        <section className={styles.contacts}>
-          <label className="block w-fit text-base font-normal text-left mb-9">+7 999 123 45 67</label>
-          <label className="block w-fit text-base font-normal text-left mb-9">
+        <section className={cn(styles.contacts, "*:block *:w-fit *:text-base *:font-normal *:text-left *:mb-9")}>
+          <label>+7 999 123 45 67</label>
+          <label>
             <a href="mailto:hello@cyberia.studio">hello@cyberia.studio</a>
           </label>
-          <label className="block w-fit text-base font-normal text-left mb-9">ул.Ярных, д.35, оф.10</label>
+          <label>ул.Ярных, д.35, оф.10</label>
         </section>
 
-        <section className={cn(styles["footer-menu"], "grid grid-flow-col gap-x-28")}>
+        <section className={cn(styles["footer-menu"], "grid grid-rows-3 grid-flow-col gap-x-28")}>
           {navigations.map(navItem => {
             return (
               <Link className="w-fit text-base font-normal" key={navItem.id} to={`/${navItem.pathName}`}>{navItem.title}</Link>
