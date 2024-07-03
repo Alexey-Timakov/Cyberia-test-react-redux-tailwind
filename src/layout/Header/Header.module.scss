@@ -1,10 +1,13 @@
 .header {
-  grid-template-areas: "logo . menu .";
-  grid-template-columns: 13.1rem minmax(0, 19rem) minmax(auto, 52rem) auto;
+  grid-template-areas: "logo . burger-icon";
+}
 
-  >svg {
-    grid-area: logo;
-  }
+.logo {
+  grid-area: logo;
+}
+
+.burger-icon {
+  grid-area: burger-icon;
 }
 
 .menu {

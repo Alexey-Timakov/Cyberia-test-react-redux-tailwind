@@ -14,19 +14,16 @@ export const Breadcrumbs = (): ReactElement<HTMLElement> | null => {
   const secondLevel = navigations.find(nav => nav.pathName === pathes[1]);
 
   return (
-    <nav className="mb-52">
-      <NavLink
-        className="text-base font-normal text-crumb"
-        to={`/${firstLevel.pathName}`}
-      >
+    <nav className="mb-12 md:mb-52 *:text-sm *:md:text-base *:font-normal *:text-crumb">
+      <NavLink to={`/${firstLevel.pathName}`}>
         {firstLevel.title}
       </NavLink>
 
       {secondLevel &&
         <>
-          <a className="text-base font-normal text-crumb"> / </a>
+          <a> / </a>
           <NavLink
-            className="text-base font-normal text-crumb [&.active]:text-white [&.active]:cursor-default"
+            className="[&.active]:text-white [&.active]:cursor-default"
             to={`/${secondLevel.pathName}`}>{secondLevel.title}</NavLink>
         </>
       }

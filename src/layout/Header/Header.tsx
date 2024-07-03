@@ -1,18 +1,22 @@
-import { DetailedHTMLProps, HTMLAttributes, ReactElement } from "react";
+import { DetailedHTMLProps, HTMLAttributes, ReactElement, useState } from "react";
 import { navigations } from "@/helpers/path";
 import { LogoIcon } from "@/icons";
+import { MenuByrgerIcon } from "@/icons";
 import styles from "./Header.module.scss";
 import cn from "classnames";
 import { NavLink } from "react-router-dom";
+import { MobileMenu } from "../MobileMenu/MobileMenu";
 
 interface IHeader extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 }
 
 export const Header = ({ className, ...props }: IHeader): ReactElement => {
+  const [isMenuOpened, toggleMenuOpened] = useState<boolean>(false);
+
   return (
-    <header className={cn(styles.header, className, "grid content-center h-64")} {...props}>
-      <LogoIcon />
-      <nav className={cn(styles.menu, "grid grid-cols-5 justify-items-stretch items-center")}>
+    <header className={cn(styles.header, className, "relative grid grid-cols-header md:header-main md:grid-cols-header-main items-center content-center h-28 md:h-64 bg-mob-dark md:bg-opacity-0")} {...props}>
+      <LogoIcon className={styles.logo} />
+      <nav className={cn(styles.menu, "hidden md:grid grid-cols-5 justify-items-stretch items-center")}>
         {navigations.map(navItem => {
           return (
             <NavLink
@@ -27,6 +31,10 @@ export const Header = ({ className, ...props }: IHeader): ReactElement => {
           )
         })}
       </nav>
+      <MenuByrgerIcon className={cn(styles["burger-icon"], "cursor-pointer block md:hidden")} onClick={() => toggleMenuOpened(true)} />
+      {isMenuOpened &&
+        <MobileMenu action={() => toggleMenuOpened(false)} />
+      }
     </header>
   )
 };

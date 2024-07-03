@@ -98,9 +98,9 @@ export const Form = (): ReactElement<HTMLFormElement> => {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onOkSubmit, onErrorSubmit)} noValidate>
+    <form className="mb-12 md:mb-40" onSubmit={handleSubmit(onOkSubmit, onErrorSubmit)} noValidate>
       <ThemeProvider theme={themeOptions}>
-        <section>
+        <section className="grid gap-y-10 md:gap-16 grid-flow-col grid-cols-1 grid-rows-form-inputs md:grid-flow-row md:grid-cols-3 md:grid-rows-1">
           <Controller
             name="name"
             control={control}
@@ -212,6 +212,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
             }}
             render={({ field }) =>
               <TextField
+                className="col-span-3"
                 id="text"
                 color="info"
                 label="Сообщение"
@@ -236,10 +237,7 @@ export const Form = (): ReactElement<HTMLFormElement> => {
           control={control}
           render={({ field }) =>
             <FormControlLabel
-              style={{
-                marginTop: "2.5rem",
-                marginBottom: "5rem"
-              }}
+              className="[&>span:last-child]:text-mob md:[&>span:last-child]:text-base mt-4 md:mt-10 mb-10 md:mb-20"
               control={
                 <Checkbox
                   checked={field.value}

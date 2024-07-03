@@ -4,7 +4,6 @@
     ". body ."
     "footer footer footer";
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: auto minmax(65rem, 134rem) auto;
 }
 
 .header {

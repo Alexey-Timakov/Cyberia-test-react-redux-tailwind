@@ -18,7 +18,7 @@ export const ProjectItem = ({ project }: IProjectItem): ReactElement<HTMLDivElem
           }}>
           <div className={cn("absolute bg-dark-grey rounded-lg top-0 right-0 w-1/3 h-1/3 translate-x-[-2.3rem] translate-y-[2.7rem]")}>
             <div className={cn(styles["title-wrapper"], "relative w-full h-full box-border p-8 flex justify-center items-center")}>
-              <span className="text-2xl font-semibold text-white text-center">{project.title}</span>
+              <span className="text-xl md:text-2xl font-semibold text-white text-center">{project.title}</span>
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
 .footer {
   grid-template-areas: ". footer-content .";
-  grid-template-columns: auto minmax(55rem, 124rem) auto;
 }
 
 .footer-content {
   grid-area: footer-content;
-  grid-template-areas: "logo . contacts . nav";
-  grid-template-columns: 19.6rem minmax(0, 15.7rem) 16rem minmax(0, 5.4rem);
+  grid-template-areas:
+    "logo logo"
+    "contacts nav"
 }
 
 .logo {

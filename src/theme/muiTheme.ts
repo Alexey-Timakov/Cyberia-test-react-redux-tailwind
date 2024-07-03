@@ -81,9 +81,9 @@ export const themeOptions = createTheme({
       styleOverrides: {
         label: ({ theme }) => ({
           color: theme.palette.text.secondary,
-          fontSize: '1.8rem',
-          fontWeight: 300
-        })
+          // fontSize: '1.8rem',
+          // fontWeight: 300
+        }),
       }
     },
     MuiButton: {

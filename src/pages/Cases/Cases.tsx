@@ -1,4 +1,4 @@
-import { ErrorMessage, FormBlock, Loader, PageTitle, ProjectsBlock, VerticalDivider } from "@/components";
+import { ErrorMessage, FormBlock, Loader, PageTitle, ProjectsBlock } from "@/components";
 import { useGetAllProjectsQuery } from "@/store/services";
 import { useGetAllCategoriesQuery } from "@/store/services";
 import { CategoriesBlock } from "@/components";
@@ -15,8 +15,7 @@ export const Cases = () => {
 
     return (
       <>
-        <PageTitle />
-        <VerticalDivider verticalGap={6.5} />
+        <PageTitle className="mb-12 md:mb-[6.5rem]" />
         <ErrorMessage error={error!} />
       </>
     )
@@ -30,9 +29,8 @@ export const Cases = () => {
 
   return (
     <div>
-      <PageTitle />
+      <PageTitle className="mb-12 md:mb-[6.5rem]" />
 
-      <VerticalDivider verticalGap={6.5} />
       {(isProjectsLoading || isCategoriesLoading) &&
         <div className="text-center">
           <Loader />
@@ -41,11 +39,7 @@ export const Cases = () => {
 
       {categories && <CategoriesBlock categories={categories} />}
 
-      <VerticalDivider verticalGap={5.2} />
-
       {selectedProjects && <ProjectsBlock projects={selectedProjects} />}
-
-      <VerticalDivider verticalGap={10} />
 
       <FormBlock />
     </div>
